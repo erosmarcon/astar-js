@@ -15,7 +15,7 @@ A javascript implementation of A* path-finding algorithm.
 
 Create a map passing width and height values (number of cells on each axis)
 
-    var graph=graph = new AStarGraph(100, 100);
+    var graph = new AStarGraph(100, 100);
 
 Define origin and destination coordinates, es:
 
