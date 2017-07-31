@@ -1,7 +1,7 @@
 # *Star Pathfinder
 
 <p align="center">
-  <img src="https://github.com/erosmarcon/VRKeyboard/blob/master/images/screenshots/Astar-shot-1.png"/>
+  <img src="https://github.com/erosmarcon/astar-js/blob/master/images/screenshots/AStar-shot-1.png"/>
 </p>
 
 ## What is
