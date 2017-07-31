@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASTAR </title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css"/>
+    <script src="../../libs/createjs-2015.11.26.min.js"></script>
+    <script src="../../libs/stats.min.js"></script>
+    <script src="../../libs/dat.gui.min.js"></script>
+    <script src="../../js/AStar.js"></script>
+    <script src="../../js/MapView.js"></script>
+    <script src="../../js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/gui.css"/>
+
+</head>
+
+<body onload="init()">
+    <canvas id="playground"></canvas>
+    <div id="result"></div>
+    <div id="msg">
+        <span style="color:#BFFF00; font-weight: bold">A* THREE.JS Example:</span>
+        <ul>
+            <li>Click on a Cell to fill/unfill </li>
+            <li>SHIFT + Click to set origin      (blue)</li>
+            <li>ALT   + Click to set destination (red)</li>
+            <li>Click 'Find Path' to solve the maze</li>
+        </ul>
+    </div>
+
+    <a href="https://github.com/erosmarcon/" target="_blank">
+        <div class="view-source">View source</div>
+    </a>
+</body>
+</html>
