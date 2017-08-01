@@ -158,9 +158,9 @@
                     message = "Unable to find path"
                     break;
                 case AStarGraph.SOLVED:
-                    message = "Path solved!";
+                    message = "Path found!";
                     if (solution.path != null) {
-                        message = "Path solved! (" + solution.path.length + " steps)";
+                        message += "(" + solution.path.length + " steps)";
                         view.showSolution(solution.path)
                     }
                     break;

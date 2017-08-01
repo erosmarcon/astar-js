@@ -42,27 +42,27 @@ You get a result object with a description property, possible values are:
 If description is AStarGraph.SOLVED, result has a path property (an array of x and y coordinates):
 
 
-        switch (solution.description) {
-            case AStarGraph.INVALID_DESTINATION:
-                message = "Destination point is filled!"
-                break;
-            case AStarGraph.NO_PATH:
-                message="No path beetween points!"
-                break;
-            case AStarGraph.TOO_LONG:
-                message = "Too many !"
-                break;
-            case AStarGraph.UNSOLVED:
-                message = "Unable to find path"
-                break;
-            case AStarGraph.SOLVED:
-                message = "Path solved!";
-                if (solution.path != null) {
-                    message = "Path solved! (" + solution.path.length + " steps)";
-                    view.showSolution(solution.path)
+    switch (solution.description) {
+                    case AStarGraph.INVALID_DESTINATION:
+                        message = "Destination point is filled!"
+                        break;
+                    case AStarGraph.NO_PATH:
+                        message="No path beetween points!"
+                        break;
+                    case AStarGraph.TOO_LONG:
+                        message = "Too many !"
+                        break;
+                    case AStarGraph.UNSOLVED:
+                        message = "Unable to find path"
+                        break;
+                    case AStarGraph.SOLVED:
+                        message = "Path found!";
+                        if (solution.path != null) {
+                            message += "(" + solution.path.length + " steps)";
+                            view.showSolution(solution.path)
+                        }
+                        break;
                 }
-                break;
-        }
 
 ## Examples
 

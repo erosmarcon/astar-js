@@ -182,7 +182,7 @@ function solve() {
         case AStarGraph.SOLVED:
             message = "Path solved!";
             if (solution.path != null) {
-                message = "Path solved! (" + solution.path.length + " steps)";
+                message = "Path found! (" + solution.path.length + " steps)";
                 view.showSolution(solution.path)
             }
             break;
