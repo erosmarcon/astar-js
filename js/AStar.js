@@ -17,6 +17,7 @@ AStarGraph = function (width = 10, height = 10) {
 
     AStarGraph.MAX_ITERATIONS = 2000;
     AStarGraph.SOLVED = "solved";
+    AStarGraph.UNSOLVED = "unsolved";
     AStarGraph.INVALID_DESTINATION = "invalidDestination";
     AStarGraph.TOO_LONG = "tooLong";
     AStarGraph.NO_PATH = "noPath";
@@ -48,18 +49,20 @@ AStarGraph = function (width = 10, height = 10) {
     }
 
     this.solve = function (origin, destination, orthogonal) {
+
+        this.result={}
         this.origin = this.mapArray[origin.x][origin.y]
         this.destination = this.mapArray[destination.x][destination.y]
         this.orthogonal = orthogonal;
 
         if (!this.destination.walkable) {
-            this.result = AStarGraph.INVALID_DESTINATION;
-            return null;
+            this.result.description = AStarGraph.INVALID_DESTINATION;
+            return this.result;
         }
 
         if (this.destination.x == this.origin.x && this.destination.y == this.origin.y) {
-            this.result = AStarGraph.INVALID_DESTINATION;
-            return null;
+            this.result.description = AStarGraph.INVALID_DESTINATION;
+            return this.result;
         }
         this.current = this.origin;
         this.reset();
@@ -73,12 +76,10 @@ AStarGraph = function (width = 10, height = 10) {
                 isSolved = this.stepPathfinder();
             } else {
                 isSolved = true;
-                this.result = AStarGraph.TOO_LONG;
-                return null;
+                this.result.description = AStarGraph.TOO_LONG;
+                return this.result;
             }
         } while (!isSolved)
-
-        if(this.result != AStarGraph.SOLVED) return null;
 
         var solutionPath = []
 
@@ -88,16 +89,18 @@ AStarGraph = function (width = 10, height = 10) {
             cellPointer = cellPointer.parent;
         }
 
-        if(this.result != AStarGraph.SOLVED) return null;
+       if(this.result.description != AStarGraph.SOLVED)
+            return  this.result;
 
-        return solutionPath;
-
+        //this.result.description=AStarGraph.SOLVED
+        this.result.path=solutionPath
+        return this.result
 
     }
 
     this.stepPathfinder = function () {
         if (this.current == this.destination) {
-            this.result = AStarGraph.SOLVED;
+            this.result.description = AStarGraph.SOLVED;
             this.closedSet.push(this.destination);
             return true;
         }
@@ -181,8 +184,8 @@ AStarGraph = function (width = 10, height = 10) {
         this.openSet.splice(currentIndex, 1);
 
         if (this.openSet.length == 0) {
-            this.result = AStarGraph.NO_PATH;
-            return true;
+            this.result.description = AStarGraph.NO_PATH;
+            return this.result;
         }
 
         this.openSet.sort(this.sort); //f desc
@@ -193,7 +196,7 @@ AStarGraph = function (width = 10, height = 10) {
 
 
     this.getCellAt = function (x, y) {
-        var cell = this.mapArray[x][y]
+        var cell = this.mapArray[x][y];
         return cell
     }
 

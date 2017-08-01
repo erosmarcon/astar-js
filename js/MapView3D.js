@@ -5,8 +5,8 @@ MapView3D = function (graph, cellSize) {
     this.graph = graph;
     this.cellSize = cellSize;
 
-    this.cellView = new THREE.Mesh(new THREE.CubeGeometry(cellSize - 1, 1, cellSize - 1), new THREE.MeshPhongMaterial({color: 0xFFFFFF}));
-    this.stepView = new THREE.Mesh(new THREE.CubeGeometry(cellSize - 1, 2, cellSize - 1), new THREE.MeshPhongMaterial({color: 0x00FF00}));
+    this.cellView = new THREE.Mesh(new THREE.CubeGeometry(this.cellSize - 1, 1, this.cellSize - 1), new THREE.MeshPhongMaterial({color: 0xFFFFFF}));
+    this.stepView = new THREE.Mesh(new THREE.CubeGeometry(this.cellSize - 1, 2, this.cellSize - 1), new THREE.MeshPhongMaterial({color: 0xFF0000}));
     this.solutionView = new THREE.Group();
 
     //defaults
@@ -16,15 +16,19 @@ MapView3D = function (graph, cellSize) {
         walkable: new THREE.MeshPhongMaterial({color: 0xFFFFFF}),
         unwalkable: new THREE.MeshPhongMaterial({color: 0x000000}),
         origin: new THREE.MeshPhongMaterial({color: 0x0000FF}),
-        destination: new THREE.MeshPhongMaterial({color: 0xFF0000})
+        destination: new THREE.MeshPhongMaterial({color: 0x00FF00})
     }
-    this.drawMap()
+    this.drawMap();
 }
 
 MapView3D.prototype = Object.assign(Object.create(THREE.Group.prototype), {
     constructor: MapView3D,
     drawMap: function () {
-        clearInterval(this.solutionView.interval)
+        this.cellView.geometry.dispose()
+        this.cellView.geometry=new THREE.CubeGeometry(this.cellSize - 1, 1, this.cellSize - 1)
+        this.stepView.geometry.dispose()
+        this.stepView.geometry = new THREE.CubeGeometry(this.cellSize - 1, 2, this.cellSize - 1)
+        clearInterval(this.solutionView.interval);
         var i;
         for (i = this.children.length - 1; i >= 0; i--) {
             this.remove(this.children[i]);
@@ -32,7 +36,7 @@ MapView3D.prototype = Object.assign(Object.create(THREE.Group.prototype), {
         for (i = this.solutionView.children.length - 1; i >= 0; i--) {
             this.solutionView.remove(this.solutionView.children[i]);
         }
-        this.add(this.solutionView)
+        this.add(this.solutionView);
 
         this.originView = this.cellView.clone()
         this.originView.position.x = this.origin.x * this.cellSize;
@@ -57,11 +61,10 @@ MapView3D.prototype = Object.assign(Object.create(THREE.Group.prototype), {
                     cell = this.cellView.clone();
                     cell.position.x = x * this.cellSize;
                     cell.position.z = y * this.cellSize;
-                    cell.scale.y = 10
-                    cell.position.y = 5
+                    cell.scale.y = 10;
+                    cell.position.y = 5;
                     cell.material = this.materials.unwalkable;
                     this.add(cell);
-
                 }
                 else {
                     cell = this.cellView.clone();
@@ -94,11 +97,9 @@ MapView3D.prototype = Object.assign(Object.create(THREE.Group.prototype), {
         }
         var self=this;
         this.solutionView.solution = []
-        this.solutionView.solution=solution.concat()
+        this.solutionView.solution=solution.concat();
         this.solutionView.solution.reverse();
         this.solutionView.index = 0;
         this.solutionView.interval = setInterval(function(){ self.addStep() }, 50);
-
     }
-
 })

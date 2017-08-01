@@ -8,7 +8,7 @@ var stats;
 var graph
 var view
 
-var settings = {orthogonal: false, numBlocks: 500}
+var settings = {orthogonal: false, numBlocks: 500, width:50, height:50, cellSize:10}
 
 function init(element) {
     container = document.getElementById(element);
@@ -41,20 +41,58 @@ function init(element) {
     dirLight.position.set(50, 100, 50);
     scene.add(dirLight);
 
-    graph = new AStarGraph(50, 50)
-    randomize(settings.numBlocks)
+    graph = new AStarGraph(settings.width, settings.height);
+    randomize(settings.numBlocks);
 
-    view = new MapView3D(graph, 10)
+
+    view = new MapView3D(graph, settings.cellSize)
     scene.add(view);
 
-    //get center
-    var centerX = graph.width * view.cellSize * .5;
-    var centerZ = graph.height * view.cellSize * .5;
-    controls.target = new THREE.Vector3(centerX, 0, centerZ);
+    lookAtCenter()
+
 
     //Gui
     var gui = new dat.GUI();
     gui.add(settings, 'orthogonal').name('Orthogonal');
+    var width = gui.add(settings, 'width', 20, 100).step(1).name('Graph Width')
+    var height = gui.add(settings, 'height', 20, 100).step(1).name('Graph Height')
+
+    width.onFinishChange(function (value) {
+        graph.clear();
+        graph = new AStarGraph(value, settings.height);
+        randomize(settings.numBlocks);
+        view.graph=graph;
+        view.drawMap();
+        lookAtCenter()
+
+    })
+
+    height.onFinishChange(function (value) {
+        graph.clear();
+        graph = new AStarGraph(settings.width, value);
+        randomize(settings.numBlocks);
+        view.graph=graph;
+        view.drawMap();
+        lookAtCenter()
+
+    })
+
+
+
+    var cellSize = gui.add(settings, 'cellSize', 6, 20).step(1).name('Cell Size');
+
+    cellSize.onFinishChange(function (value) {
+        graph.clear();
+        graph = new AStarGraph(settings.width, settings.height);
+        randomize(settings.numBlocks);
+        view.graph=graph;
+        view.cellSize=value
+        view.drawMap();
+        lookAtCenter()
+
+    })
+
+
     var numBlocks = gui.add(settings, 'numBlocks', 100, 1000).step(1).name('Unwalkable Cells').listen();;
     numBlocks.onFinishChange(function (value) {
         graph.clear();
@@ -76,7 +114,6 @@ function init(element) {
     }, "solve").name("Solve")
 
     window.addEventListener('resize', onWindowResize, false);
-    //document.addEventListener( 'mousemove', onMouseMove, true );
 
     document.addEventListener('mousedown', onClick, false);
 
@@ -84,8 +121,16 @@ function init(element) {
 }
 
 
-function onClick(event) {
+function lookAtCenter()
+{
+    //get center
+    var centerX = graph.width * view.cellSize * .5;
+    var centerZ = graph.height * view.cellSize * .5;
+    controls.target = new THREE.Vector3(centerX, 0, centerZ);
+}
 
+
+function onClick(event) {
     var mouse3D = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
     mouse3D.unproject(camera);
     var raycaster = new THREE.Raycaster(camera.position, mouse3D.sub(camera.position).normalize());
@@ -99,7 +144,6 @@ function onClick(event) {
                 settings.numBlocks--
             else
                 settings.numBlocks++
-            
             view.drawMap()
         }
         else if (event.ctrlKey) {
@@ -107,44 +151,49 @@ function onClick(event) {
             view.drawMap()
         }
         else if (event.shiftKey) {
-
             view.destination = {x: x, y: y}
             view.drawMap()
         }
-
     }
-
 }
 
 function solve() {
-    var solutionPath = graph.solve(view.origin, view.destination, settings.orthogonal);
-    var msg;
+    if(!graph.getCellAt(view.destination.x, view.destination.y).walkable)
+        graph.getCellAt(view.destination.x, view.destination.y).walkable=true;
 
-    switch (graph.result) {
+   //view.clearSolution()
+    document.getElementById('result').innerHTML = "";
+
+    var solution = graph.solve(view.origin, view.destination, settings.orthogonal);
+    var message=""
+    switch (solution.description) {
         case AStarGraph.INVALID_DESTINATION:
-            msg = "Destination point is filled!"
+            message = "Destination point is filled!"
             break;
         case AStarGraph.NO_PATH:
-            msg = "There is No Path!"
+            message="No path beetween points!"
             break;
         case AStarGraph.TOO_LONG:
-            msg = "Too many !"
+            message = "Too many !"
+            break;
+        case AStarGraph.UNSOLVED:
+            message = "Unable to find path"
             break;
         case AStarGraph.SOLVED:
-            msg = "Path solved!";
-            if (solutionPath != null) {
-                msg = "Path solved! (" + solutionPath.length + " steps)";
-                view.showSolution(solutionPath)
+            message = "Path solved!";
+            if (solution.path != null) {
+                message = "Path solved! (" + solution.path.length + " steps)";
+                view.showSolution(solution.path)
             }
             break;
     }
-    document.getElementById('result').innerHTML=msg;
+    document.getElementById('result').innerHTML = message;
 }
 
 function randomize(fills) {
     for (var i = 0; i < fills; i++) {
-        var x = parseInt(Math.random() * 50);
-        var y = parseInt(Math.random() * 50);
+        var x = parseInt(Math.random() * settings.width);
+        var y = parseInt(Math.random() * settings.height);
         graph.getCellAt(x, y).walkable = false;
     }
 }

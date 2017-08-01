@@ -50,8 +50,8 @@
         this.destinationView.x=(this.graph.width-2)*cellSize;
         this.destinationView.y=(this.graph.height-2)*cellSize;
 
-        this.destinationView.graphics.setStrokeStyle(1).beginStroke("#FF0000")
-        this.destinationView.graphics.beginFill("#FF0000");
+        this.destinationView.graphics.setStrokeStyle(1).beginStroke("00FF00")
+        this.destinationView.graphics.beginFill("#00FF00");
         this.destinationView.graphics.drawRect(1,1,cellSize-2,cellSize-2);
         this.destinationView.graphics.endFill();
         this.addChild(this.destinationView);
@@ -112,7 +112,7 @@
     }
     MapView.prototype.addStep=function(solution)
     {
-        this.solutionView.graphics.setStrokeStyle(4, "round", "round", 10).beginStroke("#00FF00");
+        this.solutionView.graphics.setStrokeStyle(4, "round", "round", 10).beginStroke("#FF0000");
         if (this.solutionView.index < this.solutionView.solution.length) {
 
             var cell=this.solutionView.solution[this.solutionView.index]
@@ -125,11 +125,16 @@
         }
     }
 
+    MapView.prototype.clearSolution=function()
+    {
+        this.solutionView.graphics.clear();
+    }
+
     MapView.prototype.showSolution=function(solution)
     {
         clearInterval(this.solutionView.interval);
-        this.solutionView.graphics.clear();
 
+        this.clearSolution()
         //var endCell = solution[0];
         var self=this;
 
