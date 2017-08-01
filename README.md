@@ -43,26 +43,26 @@ If description is AStarGraph.SOLVED, result has a path property (an array of x a
 
 
     switch (solution.description) {
-                    case AStarGraph.INVALID_DESTINATION:
-                        message = "Destination point is filled!"
-                        break;
-                    case AStarGraph.NO_PATH:
-                        message="No path beetween points!"
-                        break;
-                    case AStarGraph.TOO_LONG:
-                        message = "Too many !"
-                        break;
-                    case AStarGraph.UNSOLVED:
-                        message = "Unable to find path"
-                        break;
-                    case AStarGraph.SOLVED:
-                        message = "Path found!";
-                        if (solution.path != null) {
-                            message += "(" + solution.path.length + " steps)";
-                            view.showSolution(solution.path)
-                        }
-                        break;
-                }
+        case AStarGraph.INVALID_DESTINATION:
+            message = "Destination point is filled!"
+            break;
+        case AStarGraph.NO_PATH:
+            message="No path beetween points!"
+            break;
+        case AStarGraph.TOO_LONG:
+            message = "Too many !"
+            break;
+        case AStarGraph.UNSOLVED:
+            message = "Unable to find path"
+            break;
+        case AStarGraph.SOLVED:
+            message = "Path found!";
+            if (solution.path != null) {
+                message += "(" + solution.path.length + " steps)";
+                view.showSolution(solution.path)
+            }
+            break;
+    }
 
 ## Examples
 
