@@ -1,4 +1,4 @@
-# *Star Pathfinder
+# A* Pathfinder
 
 <p align="center">
   <img src="https://github.com/erosmarcon/astar-js/blob/master/images/screenshots/AStar-shot-1.png"/>
