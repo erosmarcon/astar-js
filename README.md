@@ -67,7 +67,8 @@ If description is AStarGraph.SOLVED, result has a path property (an array of x a
 ## Examples
 
 * [2D Example  - built with CreateJS](http://htmlpreview.github.io/?https://github.com/erosmarcon/astar-js/blob/master/examples/2d/index.html)
-* [3D Example  - built with ThreeJ](http://htmlpreview.github.io/?https://github.com/erosmarcon/astar-js/blob/master/examples/3d/index.html)
+* [3D Example  - built with ThreeJS (2D path-finding in a 3D Environment)](http://htmlpreview.github.io/?https://github.com/erosmarcon/astar-js/blob/master/examples/3d/index.html)
+
 
 ## Next Steps
 
