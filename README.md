@@ -44,13 +44,13 @@ If description is AStarGraph.SOLVED, result has a path property (an array of x a
 
     switch (solution.description) {
         case AStarGraph.INVALID_DESTINATION:
-            message = "Destination point is filled!"
+            message = "Destination point is not walkable!"
             break;
         case AStarGraph.NO_PATH:
-            message="No path beetween points!"
+            message="No walkable path beetween points!"
             break;
         case AStarGraph.TOO_LONG:
-            message = "Too many !"
+            message = "Too many iterations!"
             break;
         case AStarGraph.UNSOLVED:
             message = "Unable to find path"
@@ -65,4 +65,11 @@ If description is AStarGraph.SOLVED, result has a path property (an array of x a
     }
 
 ## Examples
+
+* 2D Example  - built with CreateJS
+* 3D Example  - built with ThreeJS (2D path-finding in a 3D Environment)
+
+## Next Steps
+
+Support full 3D path-finding on x,y and z axis.
 

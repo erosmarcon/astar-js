@@ -1,8 +1,4 @@
-
-(function () {/**
- * Created by eros on 21/07/2017.
- */
-//MapView
+(function () {
 
     function MapView(map, cellSize) {
         this.Container_constructor();
@@ -23,10 +19,6 @@
 
         this.origin={x:0, y:0};
         this.destination={x:0,y:0};
-
-        /*this.originView=null;
-        this.destinationView=null;
-        this.solutionView=null;*/
 
         this.mainView=new createjs.Shape()
         this.mainView.x=0;
@@ -58,7 +50,6 @@
 
         this.solutionView=new createjs.Shape()
         this.addChild(this.solutionView)
-
         this.drawMap();
 
     };
@@ -133,18 +124,13 @@
     MapView.prototype.showSolution=function(solution)
     {
         clearInterval(this.solutionView.interval);
-
         this.clearSolution()
-        //var endCell = solution[0];
         var self=this;
-
         this.solutionView.solution = []
         this.solutionView.solution=solution.concat()
         this.solutionView.solution.reverse();
         this.solutionView.index = 0;
         this.solutionView.interval = setInterval(function(){ self.addStep() }, 50);
-
-
     }
 
     window.MapView = createjs.promote(MapView, "Container");
