@@ -71,5 +71,5 @@ If description is AStarGraph.SOLVED, result has a path property (an array of x a
 
 ## Next Steps
 
-Support full 3D path-finding on x,y and z axis.
+Add the third axis to support full 3D path-finding.
 
